@@ -6,14 +6,22 @@ import {Scene} from "./DeskScene.jsx";
 import HeroLights from "./HeroLights.jsx";
 import Particles from './Particles.jsx';
 import { Wolf } from "./WolfSitting.jsx";
+import { Island } from './WolfIslandScene.jsx';
+import * as THREE from 'three';
 
 const HeroExperience = () => {
     const isTablet = useMediaQuery({query: "(max-width: 1024px)"});
     const isMobile = useMediaQuery({query: "(max-width: 768px)"});
 
     return (
-        <Canvas camera={{position: [0, -20, 0], fov:45 }}>
+        <Canvas camera={{position: [0, -20, 0], fov:45 }} onCreated={({ gl }) => {
+            gl.shadowMap.enabled = true;
+            gl.shadowMap.type = THREE.PCFSoftShadowMap;
+            gl.toneMapping = THREE.ACESFilmicToneMapping;
+            gl.toneMappingExposure = 1.75;
+          }} >
 
+           
 
             <OrbitControls
                 enablePan={true}
@@ -26,11 +34,14 @@ const HeroExperience = () => {
 
             <HeroLights/>
             <group
+        
                 scale={isMobile ? 0.7 : 1}
                 position={[2,0,-1]}
             >
+                
 
                 {/* <Scene /> */}
+                <Island/>
                 <Wolf />
                 
 
